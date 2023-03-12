@@ -31,7 +31,7 @@ pip3 install pwntools argparse
 To run Hash Hunter, use the following command:
 
 ```python
-python hash_hunter.py -t [hash_type] -f [hash_file] -p [password_file]
+python hashhunter.py -t [hash_type] -f [hash_file] -p [password_file]
 ```
 
 Where:
@@ -43,7 +43,7 @@ Where:
 Example usage:
 
 ```python
-python hash_hunter.py -t sha256 -f hashes.txt -p passwords.txt
+python hashhunter.py -t sha256 -f hashes.txt -p passwords.txt
 ```
 
 
