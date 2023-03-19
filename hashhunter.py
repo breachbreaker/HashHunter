@@ -1,18 +1,12 @@
-# Import the required libraries
 from pwn import *
 import argparse
 
-# Define a function to crack a password hash
 def crack_hash(hash_type, wanted_hash, password_list):
     attempts = 0
 
-    # Show progress while attempting to crack the hash
     with log.progress("Attempting to Crack: {}!\n".format(wanted_hash)) as p:
-        # Open the password list file
         with open(password_list, "r", encoding='latin-1') as passwords:
-            # Loop through each password in the file
             for password in passwords:
-                # Strip any newline characters from the password and encode it as bytes
                 password = password.strip("\n").encode('latin-1')
                 # Hash the password using the specified hash algorithm
                 if hash_type == 'sha256':
@@ -22,7 +16,6 @@ def crack_hash(hash_type, wanted_hash, password_list):
                 elif hash_type == 'sha1':
                     password_hash = sha1sumhex(password)
                 else:
-                    # If an invalid hash algorithm is specified, print an error message and return
                     print('Invalid hash type')
                     return
 
@@ -32,10 +25,8 @@ def crack_hash(hash_type, wanted_hash, password_list):
                 if password_hash == wanted_hash:
                     p.success("Password found after {} attempts! {} hashes to {}!".format(attempts, password.decode('latin-1'), password_hash))
                     return password.decode('latin-1')
-                # Increment the number of attempts and try the next password
                 attempts += 1
 
-        # If we reach the end of the password list without finding the password, print a failure message and return None
         p.failure("Password hash not found!")
         return None
 
@@ -55,7 +46,6 @@ if __name__ == '__main__':
 
     # Open the file containing the hashes we want to crack
     with open(hash_file, 'r') as hashes:
-        # Loop through each hash in the file and try to crack it
         for hash in hashes:
             hash = hash.strip('\n')
             crack_hash(hash_type, hash, password_file)
